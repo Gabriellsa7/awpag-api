@@ -4,6 +4,7 @@ import com.algaworks.awpag.domain.exception.NegocioException;
 import com.algaworks.awpag.domain.model.Client;
 import com.algaworks.awpag.domain.repository.ClientRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +13,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class CadastroClientService {
 
     private final ClientRepository clientRepository;
+
+    public Client buscar(Long clientId) {
+        return clientRepository.findById(clientId).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build()).getBody();
+    }
 
     @Transactional
     public Client salvar(Client client) {
